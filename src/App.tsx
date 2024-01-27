@@ -1,12 +1,14 @@
 
 import './App.css'
-import { Button } from "@material-tailwind/react";
+import MainLayout from './components/layout/MainLayout';
+import MainLayoutnew from './components/layout/MainLayoutnew';
 
 function App() {
 
   return (
     <>
-    <Button placeholder={''} className=''>Button</Button>
+  <MainLayout></MainLayout>
+  {/* <MainLayoutnew></MainLayoutnew> */}
     </>
   )
 }
