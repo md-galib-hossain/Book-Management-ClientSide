@@ -1,84 +1,38 @@
-import { Layout, Menu, MenuProps } from "antd";
-import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from "@ant-design/icons";
-import { createElement } from "react";
+import { Button, Layout } from "antd";
 
-const { Header, Content, Sider } = Layout;
+import { Outlet } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import { useAppDispatch } from "../../redux/hooks";
+import { logout } from "../../redux/features/auth/authSlice";
 
-const items: MenuProps["items"] = [
-  {
-    key: "1",
-    label: "Dashboard",
-  },
-  {
-    key: "2",
-    label: "Products",
-  },
-  {
-    key: "3",
-    label: "Reports",
-    children: [
-      {
-        key: "11",
-        label: "New",
-      },
-      {
-        key: "21",
-        label: "Old",
-      },
-    ],
-  },
-];
+const { Header, Content} = Layout;
+
+
 const MainLayout = () => {
+  const dispatch = useAppDispatch();
+
+  const handleLogout = ()=>{
+dispatch(logout())
+  }
   return (
-    <Layout style={{ height: "100vh" }}>
-      <Sider
-        breakpoint="lg"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
-      >
+    <Layout style={{ height: '100vh' }}>
+    <Sidebar />
+    <Layout>
+      <Header style={{ padding: 0 }}>
+        <Button onClick={handleLogout}>Logout</Button>
+         </Header>
+      <Content style={{ margin: '24px 16px 0' }}>
         <div
           style={{
-            color: "white",
-            textAlign: "center",
-            height: "4rem",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            paddingLeft: "10px",
+            padding: 24,
+            minHeight: 360,
           }}
         >
-          <h2>Book Management</h2>
+          <Outlet />
         </div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header style={{ padding: 0 }} />
-        <Content style={{ margin: "24px 16px 0" }}>
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-            }}
-          >
-            <h1>The main content should be here</h1>
-          </div>
-        </Content>
-      </Layout>
+      </Content>
     </Layout>
+  </Layout>
   );
 };
 
