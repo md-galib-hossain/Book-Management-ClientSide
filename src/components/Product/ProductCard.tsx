@@ -18,7 +18,6 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const [deleteProduct] = useDeleteProductMutation();
   const onChange: CheckboxProps["onChange"] = (e) => {
-    console.log(`checked = ${e.target.checked}`, product);
     if (e.target.checked === true) {
       dispatch(setSelectProduct(product._id));
     }

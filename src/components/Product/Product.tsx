@@ -1,11 +1,15 @@
 import { Button, Flex, Spin } from "antd";
-import { useGetAllProductsQuery } from "../../redux/features/product/productApi";
+import { useDeleteMultipleProductsMutation, useGetAllProductsQuery } from "../../redux/features/product/productApi";
 import ProductCard from "./ProductCard";
 import { TProduct } from "../../types/product.type";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { resetSelectProduct } from "../../redux/features/product/productSlice";
+import { toast } from "sonner";
 
 const Product = () => {
-  const selectedIds = useAppSelector((state) => state.product.selectedIds);
+  const Ids = useAppSelector((state) => state.product.selectedIds);
+  const [deleteMultipleProducts] = useDeleteMultipleProductsMutation()
+  const dispatch = useAppDispatch()
   const { data, isLoading } = useGetAllProductsQuery("");
   if (isLoading) {
     return (
@@ -14,7 +18,19 @@ const Product = () => {
       </Flex>
     );
   }
-  console.log(data);
+ const handleMultipleDelete =async () => {
+try{
+  console.log(Ids)
+const res = await deleteMultipleProducts(Ids)
+console.log(res);
+dispatch(resetSelectProduct())
+toast.success("Products deleted successfully")
+
+}catch(e){
+  toast.error("Something Went Wrong")
+
+}
+ }
   return (
     <div>
       <Flex
@@ -25,10 +41,11 @@ const Product = () => {
         style={{ marginBottom: "20px" }}
       >
         <h3 style={{ height : "35px"}}>
-          Product : {data?.data?.result?.length}
+          Products : {data?.data?.result?.length}
         </h3>
-        {selectedIds.length > 0 ? (
+        {Ids.length > 0 ? (
           <Button
+          onClick={handleMultipleDelete}
             type="primary"
             style={{ padding: "5px 20px", backgroundColor: "#F31559" }}
           >
