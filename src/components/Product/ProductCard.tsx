@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, CheckboxProps, Flex } from "antd";
 import { TProduct } from "../../types/product.type";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   removeSelectProduct,
   setSelectProduct,
@@ -13,6 +13,8 @@ type ProductCardProps = {
 };
 
 const ProductCard = ({ product }: ProductCardProps) => {
+    const selectedIds = useAppSelector((state) => state.product.selectedIds);
+
   const dispatch = useAppDispatch();
   const [deleteProduct] = useDeleteProductMutation();
   const onChange: CheckboxProps["onChange"] = (e) => {
@@ -34,7 +36,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
       toast.error("Something went wrong");
     }
   };
-
+let checked = false
+  if(selectedIds.length > 0 ){
+checked = selectedIds.includes(product._id!)
+  }
   return (
     <>
       <Card
@@ -46,11 +51,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
             wrap={"wrap"}
             gap={"20px"}
           >
-            <Checkbox onChange={onChange}></Checkbox>
+            <Checkbox checked={checked} onChange={onChange}></Checkbox>
             <Button
               onClick={handleSingleDelete}
               type="primary"
-              danger
+              style={{backgroundColor: "#F31559"}}
               shape="default"
               icon={<DeleteOutlined />}
             />

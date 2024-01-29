@@ -17,6 +17,6 @@ export type TProduct = {
 }
 
 export type TinitialProductSliceState = {
-    selectedIds : number[];
+    selectedIds : string[];
     products : TProduct[];
 }

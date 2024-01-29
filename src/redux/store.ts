@@ -20,14 +20,22 @@ const persistConfig = {
   storage,
 };
 
+// Product persist configuration (only persist selectedIds)
+const productPersistConfig = {
+  key: 'product',
+  storage,
+  whitelist: ['selectedIds'], // Specify the fields to persist
+};
+
 const persistedAuthReducer = persistReducer(persistConfig, authReducer);
+const persistedProductReducer = persistReducer(productPersistConfig, productReducer);
 
 
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
     auth: persistedAuthReducer,
-    product : productReducer
+    product: persistedProductReducer,
 
   },
   middleware: (getDefaultMiddlewares) =>
