@@ -1,15 +1,17 @@
-import { Button } from 'antd';
-import { FieldValues, useForm } from 'react-hook-form';
+import { Button, Row } from 'antd';
+import { FieldValues} from 'react-hook-form';
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { useAppDispatch } from '../redux/hooks';
 import { TUser, setUser } from '../redux/features/auth/authSlice';
 import { verifyToken } from '../utils/verifyToken';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
+import BMForm from '../components/form/BMForm';
+import BMInput from '../components/form/BMInput';
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
 const navigate = useNavigate()
   const [login] = useLoginMutation();
 
@@ -33,17 +35,16 @@ toast.error("Something went wrong", {id : toastId, duration : 2000})
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="email">Email: </label>
-        <input type="text" id="email" {...register('email')} />
-      </div>
-      <div>
-        <label htmlFor="password">Password: </label>
-        <input type="text" id="password" {...register('password')} />
-      </div>
+    <Row justify={"center"} align={"middle"} style={{height : "100vh"}}>
+    <BMForm onSubmit={onSubmit}>
+    
+       <BMInput type={"text"} id={"email"} label={"Email:"}/>
+    
+        <BMInput type={"text"} id={"password"} label={"Password:"}/>
+   
       <Button htmlType="submit">Login</Button>
-    </form>
+    </BMForm>
+    </Row>
   );
 };
 
