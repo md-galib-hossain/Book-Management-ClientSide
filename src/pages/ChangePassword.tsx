@@ -1,23 +1,25 @@
-import { Button } from "antd";
-import { useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import {
   useChangepassMutation,
-  useLoginMutation,
+  
 } from "../redux/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { logout } from "../redux/features/auth/authSlice";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import BMForm from "../components/form/BMForm";
+import BMInput from "../components/form/BMInput";
 
 const ChangePassword = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const { register, handleSubmit } = useForm();
   const navigate = useNavigate()
 
   const [changepass, { isLoading }] = useChangepassMutation();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data : FieldValues) => {
+   
     const toastId = toast.loading("Password Changing");
     try {
       const userInfo = {
@@ -26,6 +28,7 @@ const ChangePassword = () => {
       };
 
       const res = await changepass(userInfo).unwrap();
+      console.log(res)
       toast.success("Password Changed", { id: toastId, duration: 2000 });
 
       dispatch(logout());
@@ -40,24 +43,16 @@ const ChangePassword = () => {
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div>
-          <label htmlFor="currentPassword">Current Password: </label>
-          <input
-            type="text"
-            id="currentPassword"
-            {...register("currentPassword")}
-          />
-        </div>
-        <div>
-          <label htmlFor="newPassword">New Password: </label>
-          <input type="text" id="newPassword" {...register("newPassword")} />
-        </div>
-        <Button htmlType="submit">Submit</Button>
-      </form>
-      <h2> {user?.email}</h2>
-    </>
+    <Row justify={"center"} align={"middle"} >
+    <BMForm onSubmit={onSubmit}>
+    
+       <BMInput type={"text"} id={"currentPassword"} label={"Current Password:"}/>
+    
+        <BMInput type={"text"} id={"newPassword"} label={"New Password:"}/>
+   
+      <Button htmlType="submit">Change Password</Button>
+    </BMForm>
+    </Row>
   );
 };
 

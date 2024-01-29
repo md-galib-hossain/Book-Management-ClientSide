@@ -1,5 +1,6 @@
 import Dashboard from "../components/Dashboard/Dashboard";
 import Product from "../components/Product/Product";
+import ChangePassword from "../pages/ChangePassword";
 
 
 export const userPaths = [
@@ -8,6 +9,7 @@ export const userPaths = [
     path: 'dashboard',
     element: <Dashboard/>,
   },
+ 
   {
     name: 'Product Management',
     children: [
@@ -21,13 +23,13 @@ export const userPaths = [
         path: 'create-product',
         element: "sf",
       },
-      {
-        name: 'Update Product',
-        path: 'update-product',
-        element: "sgf",
-      },
+  
       
     ],
+  }, {
+    name: 'ChangePassword',
+    path: 'change-password',
+    element: <ChangePassword/>,
   },
 
 ];

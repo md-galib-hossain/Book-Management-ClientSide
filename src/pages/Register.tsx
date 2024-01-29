@@ -1,51 +1,61 @@
-import { Button } from "antd";
-import { useForm } from "react-hook-form";
+import { Button, Row } from "antd";
 import {
 
   useSignupMutation,
 } from "../redux/features/auth/authApi";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import BMForm from "../components/form/BMForm";
+import BMInput from "../components/form/BMInput";
+import BMSelect from "../components/form/BMSelect";
 
 
 const Register = () => {
- 
-  const { register, handleSubmit,reset } = useForm();
+  const navigate = useNavigate()
 
-  const [signup, { error }] = useSignupMutation();
+
+  const [signup] = useSignupMutation();
 
   const onSubmit = async (data: any) => {
-    const userInfo = {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-      role: data.role,
-    };
+    console.log(data)
+    const toastId =  toast.loading('Creating Account')
 
-    const res = await signup(userInfo).unwrap();
-    reset();
-    console.log(res);
+    try{
+      const userInfo = {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+      };
+  
+      const res = await signup(userInfo).unwrap();
+      toast.success("Successfully Created Account", {id : toastId , duration : 2000})
+console.log(res)
+      navigate(`/login`)
+    }catch(e){
+      toast.error("Something Went Wrong", {id : toastId , duration : 2000})
+
+    }
+ 
+
+   
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="username">UserName: </label>
-        <input type="text" id="username" {...register("username")} />
-      </div>
-      <div>
-        <label htmlFor="email">Email: </label>
-        <input type="text" id="email" {...register("email")} />
-      </div>
-      <div>
-        <label htmlFor="role">Role: </label>
-        <input type="text" id="role" {...register("role")} />
-      </div>
-      <div>
-        <label htmlFor="password">Password: </label>
-        <input type="text" id="password" {...register("password")} />
-      </div>
+    <Row justify={"center"} align={"middle"} style={{height : "100vh"}}>
+    <BMForm onSubmit={onSubmit}>
+   
+      <BMInput id={"username"} type={"text"} label={"UserName:"}/>
+   
+      <BMInput id={"email"} type={"email"} label={"Email:"}/>
+      {/* <BMInput id={"role"} type={"text"} label={"Role:"}/> */}
 
-      <Button htmlType="submit">Login</Button>
-    </form>
+
+      <BMInput id={"password"} type={"text"} label={"Password:"}/>
+      <BMSelect id={"role"} label={"Role:"}/>
+      <Button htmlType="submit">Create Account</Button>
+    </BMForm>
+    </Row>
   );
 };
 

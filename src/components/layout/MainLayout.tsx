@@ -14,12 +14,13 @@ const MainLayout = () => {
   const handleLogout = ()=>{
 dispatch(logout())
   }
+
   return (
-    <Layout style={{ height: '100vh' }}>
+    <Layout style={{minHeight : "100vh"}}>
     <Sidebar />
     <Layout>
-      <Header style={{ padding: 0 }}>
-        <Button onClick={handleLogout}>Logout</Button>
+      <Header style={{ padding: 0, display: "flex" , justifyContent: "flex-end" , alignItems: "center"}}>
+        <Button onClick={handleLogout} style={{ marginRight: "10px"}}>Logout</Button>
          </Header>
       <Content style={{ margin: '24px 16px 0' }}>
         <div

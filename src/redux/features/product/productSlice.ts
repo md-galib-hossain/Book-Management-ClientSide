@@ -32,12 +32,17 @@ export const productSlice = createSlice({
     ) => {
       state.products.push(action.payload) 
     },
+    setSelectProduct:(state , action) =>{
+      state.selectedIds.push(action.payload)
+    },
+    removeSelectProduct:(state , action) =>{
+      state.selectedIds = state.selectedIds.filter(id => id !== action.payload);    }
    
   },
 });
 
 export const {
-  
+  setSelectProduct,setProduct ,removeSelectProduct
 } = productSlice.actions;
 
 export default productSlice.reducer;

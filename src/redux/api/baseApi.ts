@@ -1,8 +1,8 @@
 import { 
-  // BaseQueryApi, BaseQueryFn, DefinitionType, FetchArgs,
+  BaseQueryApi, BaseQueryFn, DefinitionType, FetchArgs,
    createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
-// import { logout, setUser } from "../features/auth/authSlice";
+import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:5000/api/v1",
@@ -14,6 +14,19 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
+
+//custom base query for refresh token
+const baseQueryWithAccessToken : BaseQueryFn<FetchArgs,BaseQueryApi, DefinitionType> = async (args, api, extraOptions) : Promise<any> => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (result?.error?.status === 401) {
+    
+     api.dispatch(logout()) 
+    
+  }
+  return result;
+};
+
 
 //custom base query for refresh token
 // const baseQueryWithRefreshToken : BaseQueryFn<FetchArgs,BaseQueryApi, DefinitionType> = async (args, api, extraOptions) : Promise<any> => {
@@ -46,7 +59,7 @@ const baseQuery = fetchBaseQuery({
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: baseQuery,
+  baseQuery: baseQueryWithAccessToken,
 
   tagTypes: ["all-products", "all-users"],
 
