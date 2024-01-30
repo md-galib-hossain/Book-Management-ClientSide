@@ -2,20 +2,14 @@ import { baseApi } from "../../api/baseApi";
 
 const saleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllProducts: builder.query({
+    getSaleHistory: builder.query({
       query: () => ({
-        url: `/products/`,
+        url: `/sales/sale-history`,
         method: "GET",
       }),
-      providesTags: ["all-products"],
+      providesTags: ["all-sales"],
     }),
-    deleteProduct: builder.mutation({
-      query: (id: string) => ({
-        url: `/products/delete-product/${id}`,
-        method: "DELETE",
-      }),
-      invalidatesTags: ["all-products"],
-    }),
+
 
     createSingleSale: builder.mutation({
       query: (productstate) => (
@@ -28,16 +22,10 @@ const saleApi = baseApi.injectEndpoints({
       ),
       invalidatesTags: ["all-sales","all-products"],
     }),
-    getProductsByName: builder.query({
-      query: (productName) => ({
-        url: `/products/?searchTerm=${productName}`,
-        method: "GET",
-      }),
-      providesTags: ["all-products"],
-    }),
+
   }),
 });
 
-export const { useCreateSingleSaleMutation
+export const { useCreateSingleSaleMutation,useGetSaleHistoryQuery
 
 } = saleApi;

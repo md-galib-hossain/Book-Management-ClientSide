@@ -9,7 +9,7 @@ const SaleModal = ( {isModalOpen,
     setIsModalOpen,setCount}) => {
         const dispatch = useAppDispatch()
         const [saleProduct] = useCreateSingleSaleMutation()
- const {productId, saleQuantity} = useAppSelector((state)=> state.sale)
+ const {productId, saleQuantity} = useAppSelector((state)=> state.sale.saleItem)
 
         const formItemLayout = {
             labelCol: {

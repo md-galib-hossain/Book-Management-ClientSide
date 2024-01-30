@@ -40,7 +40,7 @@ export const userPaths = [
       },
       {
         name: 'Sale History',
-        path: 'create-product',
+        path: 'sale-history',
         element: <SaleHistory/>,
       },
   
