@@ -10,6 +10,7 @@ import { useDeleteProductMutation } from "../../redux/features/product/productAp
 import { toast } from "sonner";
 import { useState } from "react";
 import ProductModal from "./ProductModal";
+import ProductVariantModal from "./ProductVariantModal";
 type ProductCardProps = {
   product: TProduct;
 };
@@ -44,8 +45,12 @@ checked = selectedIds.includes(product._id!)
   }
 //   for modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalVariantOpen, setIsModalVariantOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
+  };
+  const showModalVariant = () => {
+    setIsModalVariantOpen(true);
   };
 
   return (
@@ -78,6 +83,7 @@ checked = selectedIds.includes(product._id!)
         <p><strong>Genre:</strong> {product.genre}</p>
         <p><strong>Publisher:</strong> {product.publisher}</p>
         <p><strong>Series:</strong> {product.series}</p>
+        <p><strong>Release Date:</strong> {product.releaseDate}</p>
         <p><strong>Language:</strong> {product.language.join(", ")}</p>
         <p><strong>Book Format:</strong> {product.bookFormat.join(", ")}</p>
         <p><strong>Book Stock:</strong> {product.productQuantity}</p>
@@ -93,11 +99,13 @@ checked = selectedIds.includes(product._id!)
           </Button>
           <ProductModal product={product} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} ></ProductModal>
           <Button
+          onClick={showModalVariant}
             type="primary"
             style={{ padding: "5px 20px", backgroundColor: "#99BC85" }}
           >
             Create Variant
           </Button>
+          <ProductVariantModal product={product} isModalVariantOpen={isModalVariantOpen} setIsModalVariantOpen={setIsModalVariantOpen}> </ProductVariantModal>
         </Flex>
       </Card>
     </>

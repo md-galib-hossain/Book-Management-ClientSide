@@ -19,8 +19,9 @@ const ProductModal = ({
   const { register, handleSubmit  } = useForm();
 
   
-  const [updateSingleProduct] = useUpdateSingleProductMutation()
   const dispatch = useAppDispatch();
+  const [updateSingleProduct] = useUpdateSingleProductMutation()
+
   const productState = useAppSelector((product)=> product.product.product)
 
   const handleOk = () => {
@@ -34,16 +35,39 @@ const ProductModal = ({
     dispatch(resetProduct())
 
   };
+
+
   
 
   //todo : first time productstate empty silo 
   //todo: next time state change korar por update state ashce na
   const onSubmit = async(data: any) => {
     try{
-      const productInfo = {...data, _id : product?._id} 
-      dispatch(setProduct(productInfo))
-  console.log(productState,"checkingUpdatedState") //updated product state after setProduct
-      const res = await updateSingleProduct(productState)
+  // console.log(productState,"checkingUpdatedState") //updated product state after setProduct
+     const updatedState = { ...productState, _id : product?._id}
+
+// todo clearing empty fields
+function removeEmptyFields(obj) {
+  const filteredObject = Object.fromEntries(
+    Object.entries(obj).filter(([key, value]) => {
+      if (
+        (Array.isArray(value) && value.length === 0) ||
+        (typeof value === 'string' && value.trim() === '') ||
+        value === null ||
+        value === undefined
+      ) {
+        return false; // Exclude empty arrays, empty strings, null, and undefined
+      }
+      return true; // Include non-empty values
+    })
+  );
+
+  return filteredObject;
+}
+
+
+const outputObject = removeEmptyFields(updatedState);
+  const res = await updateSingleProduct(outputObject)
       console.log(res)
       dispatch(resetProduct())
 toast.success("Product updated successfully")
@@ -51,7 +75,6 @@ toast.success("Product updated successfully")
         toast.error("Something went wrong")
     }
   };
-
   return (
     <Modal
       title="Basic Modal"
@@ -74,13 +97,7 @@ toast.success("Product updated successfully")
           defaultValue={product.productName}
             id="productName"
             type="text"
-            {...register("productName")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+           onBlur={(e)=> dispatch(setProduct({productName: e.target.value}))}
           />
         </div>
 
@@ -90,14 +107,9 @@ toast.success("Product updated successfully")
        defaultValue={product.productPrice}
 
             id="productPrice"
-            type="text"
-            {...register("productPrice")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            type="number"
+            onBlur={(e)=> dispatch(setProduct({productPrice: parseInt(e.target.value)}))}
+
           />
         </div>
 
@@ -106,14 +118,9 @@ toast.success("Product updated successfully")
           <input
           defaultValue={product.productQuantity}
             id="productQuantity"
-            type="text"
-            {...register("productQuantity")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            type="number"
+            onBlur={(e)=> dispatch(setProduct({productQuantity: parseInt(e.target.value)}))}
+
           />
         </div>
 
@@ -123,13 +130,8 @@ toast.success("Product updated successfully")
           defaultValue={product.language}
             id="language"
             type="text"
-            {...register("language")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({language: e.target.value}))}
+
           />
         </div>
 
@@ -139,13 +141,8 @@ toast.success("Product updated successfully")
           defaultValue={product.genre}
             id="genre"
             type="text"
-            {...register("genre")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({genre: e.target.value}))}
+
           />
         </div>
 
@@ -155,13 +152,8 @@ toast.success("Product updated successfully")
           defaultValue={product.author}
             id="author"
             type="text"
-            {...register("author")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({author: e.target.value}))}
+
           />
         </div>
 
@@ -171,13 +163,8 @@ toast.success("Product updated successfully")
           defaultValue={product.bookFormat}
             id="bookFormat"
             type="text"
-            {...register("bookFormat")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({bookFormat: e.target.value}))}
+
           />
         </div>
 
@@ -186,14 +173,9 @@ toast.success("Product updated successfully")
           <input
           defaultValue={product.isbn}
             id="isbn"
-            type="text"
-            {...register("isbn")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            type="number"
+            onBlur={(e)=> dispatch(setProduct({isbn: parseInt(e.target.value)}))}
+
           />
         </div>
 
@@ -203,13 +185,8 @@ toast.success("Product updated successfully")
           defaultValue={product.publisher}
             id="publisher"
             type="text"
-            {...register("publisher")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({publisher: e.target.value}))}
+
           />
         </div>
 
@@ -219,13 +196,8 @@ toast.success("Product updated successfully")
           defaultValue={product.series}
             id="series"
             type="text"
-            {...register("series")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({series: e.target.value}))}
+
           />
         </div>
 
@@ -235,13 +207,8 @@ toast.success("Product updated successfully")
           defaultValue={product.releaseDate}
             id="releaseDate"
             type="text"
-            {...register("releaseDate")}
-            style={{
-              padding: "0.5rem",
-              width: "100%",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-            }}
+            onBlur={(e)=> dispatch(setProduct({releaseDate: e.target.value}))}
+
           />
         </div>
 

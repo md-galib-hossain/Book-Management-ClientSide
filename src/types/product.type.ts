@@ -16,7 +16,20 @@ export type TProduct = {
 
 }
 
+
+export type TFilterProduct = {
+    filterAuthor : string;
+    filterReleaseDate: string;
+    filterISBN : string;
+    filterGenre: string;
+    filterPublisher: string;
+    filterSeries: string;
+    filterLanguage:string;
+    filterBookFormat: string
+}
+
 export type TinitialProductSliceState = {
     selectedIds : string[];
     product : TProduct;
+    filterItem: TFilterProduct
 }

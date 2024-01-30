@@ -4,6 +4,16 @@ import { TinitialProductSliceState } from "../../../types/product.type";
 
 export const initialState: TinitialProductSliceState = {
   selectedIds: [],
+  filterItem: {
+    filterAuthor : "",
+    filterReleaseDate: "",
+    filterISBN : "",
+    filterGenre: "",
+    filterPublisher: "",
+    filterSeries: "",
+    filterLanguage: "",
+    filterBookFormat: ""
+  },
   product: {
     _id: "",
     productName: "",
@@ -27,21 +37,27 @@ export const productSlice = createSlice({
   initialState,
   reducers: {
     setProduct: (state, action) => {
-      const { language, bookFormat, ...rest } = action.payload;
-      state.product = {
-        ...state.product,
-        ...rest,
-      };
+      const keys = Object.keys(action.payload);
+
+      if (keys.length > 0 && keys[0] !== "language" && keys[0] !== "bookFormat") {
+        const key = keys[0];
+        state.product[key] = action.payload[key];
+      }
+      // const { language, bookFormat, ...rest } = action.payload;
+      // state.product = {
+      //   ...state.product,
+      //   ...rest,
+      // };
       // Handle arrays
-      if (language !== undefined) {
-        const languages = language
+      if (keys[0] === "language") {
+        const languages = action.payload.language
           .split(",")
           .map((lang : any) => lang.trim())
           .filter(Boolean);
         state.product.language.push(...languages);
       }
-      if (bookFormat !== undefined) {
-        const formats = bookFormat
+      if (keys[0] === "bookFormat") {
+        const formats = action.payload.bookFormat
           .split(",")
           .map((format : any) => format.trim())
           .filter(Boolean);
@@ -63,6 +79,10 @@ export const productSlice = createSlice({
     resetSelectProduct: (state) => {
       state.selectedIds = initialState.selectedIds;
     },
+    setFilter : (state,action) => {
+      const { key, value } = action.payload;
+      state.filterItem[key] = value
+    }
   },
 });
 
@@ -72,6 +92,7 @@ export const {
   removeSelectProduct,
   resetSelectProduct,
   resetProduct,
+  setFilter
 } = productSlice.actions;
 
 export default productSlice.reducer;

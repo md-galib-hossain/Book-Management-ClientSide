@@ -56,6 +56,7 @@ const SaleHistory = () => {
         <Flex style={{marginTop : "20px"}} vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>
 
 {
+    filteredData.length === 0 ? <h1>There is no sale in this timeframe</h1> :
 filteredData?.map((item)=>{
 return  <SaleHistoryCard item={item} > </SaleHistoryCard>
 
