@@ -19,20 +19,21 @@ export const saleSlice = createSlice({
   name: "sale",
   initialState,
   reducers: {
-   setIncrementQuantity : (state,action)=>{
-    state.saleQuantity += action.payload.quantity
+   setSaleproduct : (state,action)=>{
     state.productId = action.payload.productId
+    state.saleQuantity = action.payload.quantity
    },
-   setDecrementQuantity : (state,action)=>{
-    state.saleQuantity -= action.payload.quantity
-    state.productId = action.payload.productId
-
+   resetSaleProduct : (state)=> {
+    state = initialState
    }
+  //  setSaleproduct : (state,action)=>{
+  //   state.productId = action.payload
+  //  },
+  
   },
 });
 
 export const {
-setIncrementQuantity,setDecrementQuantity
-} = saleSlice.actions;
+  setSaleproduct,resetSaleProduct} = saleSlice.actions;
 
 export default saleSlice.reducer;

@@ -1,11 +1,11 @@
 import { Button, Card, Flex } from "antd";
 import { TProduct } from "../../types/product.type";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {
-  setDecrementQuantity,
-  setIncrementQuantity,
-} from "../../redux/features/sale/saleSlice";
+
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import SaleModal from "./SaleModal";
+import { setSaleproduct } from "../../redux/features/sale/saleSlice";
 
 type ProductCardProps = {
   product: TProduct;
@@ -13,9 +13,15 @@ type ProductCardProps = {
 };
 
 const SaleProductCard = ({ product, quantity }) => {
-  const checkId = useAppSelector((state) => state.sale.productId);
-  const dispatch = useAppDispatch();
-  console.log(product);
+    const dispatch = useAppDispatch()
+  const [count, setCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    dispatch(setSaleproduct({productId : product._id, quantity : count}))
+    setIsModalOpen(true);
+
+    console.log(product.productName)
+  };
 
   return (
     <>
@@ -52,11 +58,15 @@ const SaleProductCard = ({ product, quantity }) => {
           style={{ marginTop: "20px" }}
         >
           <Button
+          onClick={showModal}
+          disabled={count <= 0 && true }
             type="primary"
             style={{ padding: "5px 20px", backgroundColor: "#99BC85" }}
           >
             Proceed To Sell
           </Button>
+     
+          <SaleModal setCount={setCount} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
           <Flex
             vertical={false}
             justify={"space-evenly"}
@@ -64,16 +74,11 @@ const SaleProductCard = ({ product, quantity }) => {
             gap={"10px"}
             align={"center"}
           >
-            {quantity > 0 ? (
+            {count > 0 ? (
               <Button
               type="text"
                 onClick={() =>
-                  dispatch(
-                    setDecrementQuantity({
-                      quantity: 1,
-                      productId: product._id,
-                    })
-                  )
+                    setCount( count > 0 ? count-1 : count)
                 }
                 icon={<MinusOutlined />}
               />
@@ -81,20 +86,18 @@ const SaleProductCard = ({ product, quantity }) => {
             ) : (
               <Button type="text" disabled  icon={<MinusOutlined />}/>
             )}
-            <p>{checkId === product._id ? quantity : "0"}</p>
-            <Button
+            <p>{count > 0 ? count : "0"}</p>
+            <Button 
             type="text"
               onClick={() =>
-                dispatch(
-                  setIncrementQuantity({ quantity: 1, productId: product._id })
-                )
+                setCount(product.productQuantity > count ? count+1 : count)
               }
               icon={<PlusOutlined />}
             />
               
              
             
-          </Flex>
+    </Flex>
         </Flex>
       </Card>
     </>

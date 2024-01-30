@@ -16,24 +16,17 @@ const saleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["all-products"],
     }),
-    deleteMultipleProducts: builder.mutation({
-      query: (ids: string[]) => ({
-        url: `/products/delete-products`,
-        method: "DELETE",
-        body: ids,
-      }),
-      invalidatesTags: ["all-products"],
-    }),
-    updateSingleProduct: builder.mutation({
+
+    createSingleSale: builder.mutation({
       query: (productstate) => (
         console.log(productstate, "inslice"),
         {
-          url: `/products/update-product/${productstate._id}`,
-          method: "PATCH",
+          url: `/sales/create-sale`,
+          method: "POST",
           body: productstate,
         }
       ),
-      invalidatesTags: ["all-products"],
+      invalidatesTags: ["all-sales","all-products"],
     }),
     getProductsByName: builder.query({
       query: (productName) => ({
@@ -45,6 +38,6 @@ const saleApi = baseApi.injectEndpoints({
   }),
 });
 
-export const {
+export const { useCreateSingleSaleMutation
 
 } = saleApi;
