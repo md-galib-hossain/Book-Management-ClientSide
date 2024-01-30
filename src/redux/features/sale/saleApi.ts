@@ -1,6 +1,6 @@
 import { baseApi } from "../../api/baseApi";
 
-const productApi = baseApi.injectEndpoints({
+const saleApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: () => ({
@@ -46,9 +46,5 @@ const productApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useGetAllProductsQuery,
-  useDeleteProductMutation,
-  useDeleteMultipleProductsMutation,
-  useUpdateSingleProductMutation,
-  useGetProductsByNameQuery
-} = productApi;
+
+} = saleApi;

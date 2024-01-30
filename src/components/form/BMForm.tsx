@@ -10,7 +10,7 @@ const BMForm = ({onSubmit,children} : TFormProps) => {
     const methods = useForm()
   return (
     <FormProvider {...methods}>
- <form onSubmit={methods.handleSubmit(onSubmit)}>
+ <form onSubmit={methods.handleSubmit(onSubmit)} >
 {children}
  </form>
     </FormProvider>

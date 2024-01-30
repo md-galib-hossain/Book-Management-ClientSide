@@ -8,6 +8,8 @@ import {
 } from "../../redux/features/product/productSlice";
 import { useDeleteProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
+import { useState } from "react";
+import ProductModal from "./ProductModal";
 type ProductCardProps = {
   product: TProduct;
 };
@@ -18,6 +20,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const dispatch = useAppDispatch();
   const [deleteProduct] = useDeleteProductMutation();
   const onChange: CheckboxProps["onChange"] = (e) => {
+    console.log(`checked = ${e.target.checked}`, product);
     if (e.target.checked === true) {
       dispatch(setSelectProduct(product._id));
     }
@@ -39,6 +42,12 @@ let checked = false
   if(selectedIds.length > 0 ){
 checked = selectedIds.includes(product._id!)
   }
+//   for modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <>
       <Card
@@ -64,18 +73,25 @@ checked = selectedIds.includes(product._id!)
         bordered={false}
         style={{ width: 340 }}
       >
-        <p>{product.productName}</p>
-        <p>{product.productPrice}</p>
-        <p>{product.productQuantity}</p>
+      <p><strong>Author:</strong> {product.author}</p>
+        <p><strong>ISBN:</strong> {product.isbn}</p>
+        <p><strong>Genre:</strong> {product.genre}</p>
+        <p><strong>Publisher:</strong> {product.publisher}</p>
+        <p><strong>Series:</strong> {product.series}</p>
+        <p><strong>Language:</strong> {product.language.join(", ")}</p>
+        <p><strong>Book Format:</strong> {product.bookFormat.join(", ")}</p>
+        <p><strong>Book Stock:</strong> {product.productQuantity}</p>
         <Flex
           vertical={false}
           justify={"space-evenly"}
           wrap={"wrap"}
           gap={"10px"}
+          style={{marginTop: "20px"}}
         >
-          <Button type="default" style={{ padding: "5px 20px" }}>
+          <Button onClick={showModal} type="default" style={{ padding: "5px 20px" }}>
             Update Book
           </Button>
+          <ProductModal product={product} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} ></ProductModal>
           <Button
             type="primary"
             style={{ padding: "5px 20px", backgroundColor: "#99BC85" }}

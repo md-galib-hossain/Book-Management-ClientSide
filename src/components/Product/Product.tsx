@@ -54,7 +54,7 @@ toast.success("Products deleted successfully")
         ) : null}
       </Flex>
       <Flex vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>
-        {data?.data?.result.map((product: TProduct) => (
+        {data?.data?.result?.map((product: TProduct) => (
         
           <ProductCard key={product._id} product={product}></ProductCard>
         ))}
