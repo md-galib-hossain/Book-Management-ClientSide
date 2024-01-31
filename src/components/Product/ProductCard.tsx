@@ -4,6 +4,7 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
   removeSelectProduct,
+  setProductForCreate,
   setSelectProduct,
 } from "../../redux/features/product/productSlice";
 import { useDeleteProductMutation } from "../../redux/features/product/productApi";
@@ -17,7 +18,7 @@ type ProductCardProps = {
 
 const ProductCard = ({ product }: ProductCardProps) => {
     const selectedIds = useAppSelector((state) => state.product.selectedIds);
-
+const user = useAppSelector((state)=> state.auth.user?._id)
   const dispatch = useAppDispatch();
   const [deleteProduct] = useDeleteProductMutation();
   const onChange: CheckboxProps["onChange"] = (e) => {
@@ -50,6 +51,8 @@ checked = selectedIds.includes(product._id!)
     setIsModalOpen(true);
   };
   const showModalVariant = () => {
+    const {  _id,productSimpleId,createdAt,updatedAt,...filteredProduct  } = product
+    dispatch(setProductForCreate({...filteredProduct, createdBy: user }))
     setIsModalVariantOpen(true);
   };
 

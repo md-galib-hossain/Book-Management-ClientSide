@@ -2,14 +2,14 @@ import { Button, Col, Flex, Row } from "antd"
 import BMForm from "../form/BMForm"
 import BMInput from "../form/BMInput"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
-import { resetProduct, setProduct } from "../../redux/features/product/productSlice"
+import { resetProduct, setProductForUpdate } from "../../redux/features/product/productSlice"
 
 const CreateProduct = () => {
     const dispatch = useAppDispatch()
 const productState = useAppSelector((state)=> state.product.product)
 
     const onSubmit =(data: any) => {
-      dispatch(setProduct(data))
+      dispatch(setProductForUpdate(data))
       dispatch(resetProduct())
      console.log(productState)
     }

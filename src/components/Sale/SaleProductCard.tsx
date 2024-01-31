@@ -13,14 +13,14 @@ type ProductCardProps = {
 };
 
 const SaleProductCard = ({ product, quantity }) => {
-    const dispatch = useAppDispatch()
-  const [count, setCount] = useState(0)
+  const dispatch = useAppDispatch();
+  const [count, setCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
-    dispatch(setSaleproduct({productId : product._id, quantity : count}))
+    dispatch(setSaleproduct({ productId: product._id, quantity: count }));
     setIsModalOpen(true);
 
-    console.log(product.productName)
+    console.log(product.productName);
   };
 
   return (
@@ -58,15 +58,19 @@ const SaleProductCard = ({ product, quantity }) => {
           style={{ marginTop: "20px" }}
         >
           <Button
-          onClick={showModal}
-          disabled={count <= 0 && true }
+            onClick={showModal}
+            disabled={count <= 0 && true}
             type="primary"
             style={{ padding: "5px 20px", backgroundColor: "#99BC85" }}
           >
             Proceed To Sell
           </Button>
-     
-          <SaleModal setCount={setCount} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}/>
+
+          <SaleModal
+            setCount={setCount}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+          />
           <Flex
             vertical={false}
             justify={"space-evenly"}
@@ -76,28 +80,22 @@ const SaleProductCard = ({ product, quantity }) => {
           >
             {count > 0 ? (
               <Button
-              type="text"
-                onClick={() =>
-                    setCount( count > 0 ? count-1 : count)
-                }
+                type="text"
+                onClick={() => setCount(count > 0 ? count - 1 : count)}
                 icon={<MinusOutlined />}
               />
-             
             ) : (
-              <Button type="text" disabled  icon={<MinusOutlined />}/>
+              <Button type="text" disabled icon={<MinusOutlined />} />
             )}
             <p>{count > 0 ? count : "0"}</p>
-            <Button 
-            type="text"
+            <Button
+              type="text"
               onClick={() =>
-                setCount(product.productQuantity > count ? count+1 : count)
+                setCount(product.productQuantity > count ? count + 1 : count)
               }
               icon={<PlusOutlined />}
             />
-              
-             
-            
-    </Flex>
+          </Flex>
         </Flex>
       </Card>
     </>

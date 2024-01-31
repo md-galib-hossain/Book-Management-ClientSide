@@ -29,6 +29,9 @@ export const initialState: TinitialProductSliceState = {
     language: [],
     bookFormat: [],
     isDeleted: false,
+    createdBy : "",
+    updatedAt: "",
+    createdAt: ""
   },
 };
 
@@ -36,7 +39,7 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProduct: (state, action) => {
+    setProductForUpdate: (state, action) => {
       const keys = Object.keys(action.payload);
 
       if (keys.length > 0 && keys[0] !== "language" && keys[0] !== "bookFormat") {
@@ -64,6 +67,9 @@ export const productSlice = createSlice({
         state.product.bookFormat.push(...formats);
       }
     },
+    setProductForCreate: (state, action)=>{
+state.product = action.payload
+    },
     resetProduct: (state) => {
       state.product = initialState.product;
     },
@@ -88,11 +94,11 @@ export const productSlice = createSlice({
 
 export const {
   setSelectProduct,
-  setProduct,
+  setProductForUpdate,
   removeSelectProduct,
   resetSelectProduct,
   resetProduct,
-  setFilter
+  setFilter,setProductForCreate
 } = productSlice.actions;
 
 export default productSlice.reducer;

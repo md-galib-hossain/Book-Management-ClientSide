@@ -1,4 +1,4 @@
-import { Button, Flex, Spin, Input,Select } from "antd";
+import { Button, Flex, Spin, Input, Select } from "antd";
 import {
   useDeleteMultipleProductsMutation,
   useGetAllProductsQuery,
@@ -29,13 +29,14 @@ const Product = () => {
   const [filterBookFormat, setFilterBookFormat] = useState("");
 
   const filteredProducts = data?.data?.result?.filter((product: TProduct) => {
-
-    if (filterAuthor && !product.author.toLowerCase().includes(filterAuthor.toLowerCase())) {
+    if (
+      filterAuthor &&
+      !product.author.toLowerCase().includes(filterAuthor.toLowerCase())
+    ) {
       return false;
     }
 
     if (filterReleaseDate && !product.releaseDate.includes(filterReleaseDate)) {
-      
       return false;
     }
 
@@ -43,15 +44,24 @@ const Product = () => {
       return false;
     }
 
-    if (filterGenre && !product.genre.toLowerCase().includes(filterGenre.toLowerCase())) {
+    if (
+      filterGenre &&
+      !product.genre.toLowerCase().includes(filterGenre.toLowerCase())
+    ) {
       return false;
     }
 
-    if (filterPublisher && !product.publisher.toLowerCase().includes(filterPublisher.toLowerCase())) {
+    if (
+      filterPublisher &&
+      !product.publisher.toLowerCase().includes(filterPublisher.toLowerCase())
+    ) {
       return false;
     }
 
-    if (filterSeries && !product.series.toLowerCase().includes(filterSeries.toLowerCase())) {
+    if (
+      filterSeries &&
+      !product.series.toLowerCase().includes(filterSeries.toLowerCase())
+    ) {
       return false;
     }
 
@@ -62,7 +72,6 @@ const Product = () => {
     if (filterBookFormat && !product.bookFormat.includes(filterBookFormat)) {
       return false;
     }
-
 
     return true; // Include the product if it passes all filters
   });
@@ -90,111 +99,122 @@ const Product = () => {
   return (
     <div>
       <Flex
-        vertical={false}
-        justify={"space-between"}
+        vertical={true}
+        justify={"center"}
         wrap={"wrap"}
         gap={"20px"}
         style={{ marginBottom: "20px" }}
       >
-        <Flex justify={"space-between"}
-        wrap={"nowrap"}
-        gap={"20px"}
-        >
-
-        <Input
-          placeholder="Search Author"
-          value={filterAuthor}
-          onChange={(e) => setFilterAuthor(e.target.value)}
-        />
+        <Flex justify={"space-between"} wrap={"nowrap"} gap={"20px"}>
           <Input
-          placeholder="2023-03-20"
-          value={filterReleaseDate}
-          onChange={(e) => setFilterReleaseDate(e.target.value)}
-        />
-        <Input
-          placeholder="Search ISBN"
-          value={filterISBN}
-          onChange={(e) => setFilterISBN(e.target.value)}
-        />
+            placeholder="Search Author"
+            value={filterAuthor}
+            onChange={(e) => setFilterAuthor(e.target.value)}
+          />
           <Input
-          placeholder="Search Genre"
-          value={filterGenre}
-          onChange={(e) => setFilterGenre(e.target.value)}
-        />
+            placeholder="2023-03-20"
+            value={filterReleaseDate}
+            onChange={(e) => setFilterReleaseDate(e.target.value)}
+          />
+          <Input
+            placeholder="Search ISBN"
+            value={filterISBN}
+            onChange={(e) => setFilterISBN(e.target.value)}
+          />
+          <Input
+            placeholder="Search Genre"
+            value={filterGenre}
+            onChange={(e) => setFilterGenre(e.target.value)}
+          />
         </Flex>
-      <Flex  vertical={false}
-        justify={"space-between"}
-        wrap={"nowrap"}
-        align={"center"}
-        gap={"20px"}
-        style={{ marginBottom: "20px" }}>
-
-        <Input
-          placeholder="Search Publisher"
-          value={filterPublisher}
-          onChange={(e) => setFilterPublisher(e.target.value)}
-        />
-        <Input
-          placeholder="Search Series"
-          value={filterSeries}
-          onChange={(e) => setFilterSeries(e.target.value)}
-        />
-                <p>Language</p>
-
-        <Select
-          placeholder="Select Language"
-          value={filterLanguage}
-          onChange={(value) => setFilterLanguage(value)}
+        <Flex
+          vertical={false}
+          justify={"space-between"}
+          wrap={"nowrap"}
+          align={"center"}
+          gap={"20px"}
+          style={{ marginBottom: "20px" }}
         >
-          {/* Add options dynamically based on available languages */}
-          {data?.data?.result?.reduce((languages, product) => {
-            product.language.forEach(lang => {
-              if (!languages.includes(lang)) {
-                languages.push(lang);
-              }
-            });
-            return languages;
-          }, []).map((lang) => (
-            <Option key={lang} value={lang}>
-              {lang}
-            </Option>
-          ))}
-        </Select>
-        <p>Book Format</p>
-        <Select
-          placeholder="Select Book Format"
-          value={filterBookFormat}
-          onChange={(value) => setFilterBookFormat(value)}
+          <Input
+            placeholder="Search Publisher"
+            value={filterPublisher}
+            onChange={(e) => setFilterPublisher(e.target.value)}
+          />
+          <Input
+            placeholder="Search Series"
+            value={filterSeries}
+            onChange={(e) => setFilterSeries(e.target.value)}
+          />
+
+          <Select
+            style={{ width: "20rem" }}
+            placeholder={"Languages"}
+            value={filterLanguage}
+            onChange={(value) => setFilterLanguage(value)}
+          >
+            {/* Add options dynamically based on available languages */}
+            {data?.data?.result
+              ?.reduce((languages, product) => {
+                product.language.forEach((lang) => {
+                  if (!languages.includes(lang)) {
+                    languages.push(lang);
+                  }
+                });
+                return languages;
+              }, [])
+              .map((lang) => (
+                <Option key={lang} value={lang}>
+                  {lang}
+                </Option>
+              ))}
+          </Select>
+          
+          <Select
+            style={{ width: "20rem" }}
+            placeholder={"Book Format"}
+            value={filterBookFormat}
+            onChange={(value) => setFilterBookFormat(value)}
+          >
+            {/* Add options dynamically based on available book formats */}
+            {data?.data?.result
+              ?.reduce((formats, product) => {
+                product.bookFormat.forEach((format) => {
+                  if (!formats.includes(format)) {
+                    formats.push(format);
+                  }
+                });
+                return formats;
+              }, [])
+              .map((format) => (
+                <Option key={format} value={format}>
+                  {format}
+                </Option>
+              ))}
+          </Select>
+        </Flex>
+
+        <Flex
+          vertical={false}
+          justify={"center"}
+          wrap={"nowrap"}
+          align={"center"}
+          gap={"20px"}
+          style={{ marginBottom: "20px" }}
         >
-          {/* Add options dynamically based on available book formats */}
-          {data?.data?.result?.reduce((formats, product) => {
-            product.bookFormat.forEach(format => {
-              if (!formats.includes(format)) {
-                formats.push(format);
-              }
-            });
-            return formats;
-          }, []).map((format) => (
-            <Option key={format} value={format}>
-              {format}
-            </Option>
-          ))}
-        </Select>
-</Flex>
-        {/* Add more Filter UI Components as needed */}
-        
-        <h3 style={{ height: "35px" }}>
-          Products : {filteredProducts?.length}
-        </h3>
-        {Ids?.length > 0 ? (
           <Button
+            disabled={Ids?.length <= 0}
             onClick={handleMultipleDelete}
             type="primary"
-            style={{ padding: "5px 20px", backgroundColor: "#F31559" }}
+            style={{
+              padding: "5px 20px",
+              backgroundColor: "#F31559",
+              color: "white",
+            }}
           >
             Delete Selected
           </Button>
-        ) : null}
+          <h3>Total Products : {filteredProducts?.length}</h3>
+        </Flex>
       </Flex>
       <Flex vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>
         {filteredProducts?.map((product: TProduct) => (

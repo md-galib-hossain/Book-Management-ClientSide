@@ -39,7 +39,7 @@ const SaleHistory = () => {
   return (
     <div> 
         <Flex style={{marginTop : "20px"}} align={"center"} vertical={false} justify={"end"} wrap={"wrap"} gap={"10px"}>
-       <strong>Filter By:</strong>
+       <strong>Filter By Recent:</strong>
          <Select
       defaultValue=""
       style={{ width: 120 }}

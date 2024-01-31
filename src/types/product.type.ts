@@ -12,7 +12,10 @@ export type TProduct = {
     series : string;
     language : string[];
     bookFormat : string[];
-    isDeleted? : boolean
+    isDeleted? : boolean;
+    createdBy? : string;
+    updatedAt? : string;
+    createdAt? : string
 
 }
 
@@ -26,6 +29,7 @@ export type TFilterProduct = {
     filterSeries: string;
     filterLanguage:string;
     filterBookFormat: string
+    
 }
 
 export type TinitialProductSliceState = {
