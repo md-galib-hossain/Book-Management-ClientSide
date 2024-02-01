@@ -1,4 +1,4 @@
-import { Input } from "antd";
+import { Flex, Input } from "antd";
 import { Controller } from "react-hook-form";
 
 type TInputProps = {
@@ -9,13 +9,13 @@ type TInputProps = {
 
 const BMInput = ({ type, id, label }: TInputProps) => {
   return (
-    <div style={{ marginBottom: "20px" }}>
+    <Flex vertical={true} style={{ marginBottom: "20px" }}>
       {label ? <label>{label} </label> : null}
       <Controller
         name={id} //registering with id
-        render={({ field }) => <Input {...field} type={type} id={id} />}
+        render={({ field }) => <Input style={{ marginTop: "5px" }} {...field} type={type} id={id} />}
       />
-    </div>
+    </Flex>
   );
 };
 

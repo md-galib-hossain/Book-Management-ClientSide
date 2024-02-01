@@ -1,4 +1,4 @@
-import { Button, Row } from 'antd';
+import { Button, Card, Flex, Row } from 'antd';
 import { FieldValues} from 'react-hook-form';
 import { useLoginMutation } from '../redux/features/auth/authApi';
 import { useAppDispatch } from '../redux/hooks';
@@ -36,14 +36,19 @@ toast.error("Something went wrong", {id : toastId, duration : 2000})
 
   return (
     <Row justify={"center"} align={"middle"} style={{height : "100vh"}}>
+            <Card bordered={false} style={{ width: 300 ,padding : "20px 10px"}}>
+
     <BMForm onSubmit={onSubmit}>
-    
+    <Flex vertical={true} justify={"center"}>
+
        <BMInput type={"text"} id={"email"} label={"Email:"}/>
     
         <BMInput type={"text"} id={"password"} label={"Password:"}/>
    
-      <Button htmlType="submit">Login</Button>
+      <Button style={{backgroundColor: "#99BC85", color : "white" }} htmlType="submit">Login</Button>
+ </Flex>
     </BMForm>
+</Card>
     </Row>
   );
 };

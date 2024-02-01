@@ -18,9 +18,9 @@ dispatch(logout())
   return (
     <Layout style={{minHeight : "100vh"}}>
     <Sidebar />
-    <Layout>
+    <Layout> 
       <Header style={{ padding: 0, display: "flex" , justifyContent: "flex-end" , alignItems: "center"}}>
-        <Button onClick={handleLogout} style={{ marginRight: "10px"}}>Logout</Button>
+        <Button onClick={handleLogout} style={{marginRight: "20px", backgroundColor: "#99BC85", color : "white", padding : "20px 40px",display: "flex",alignItems: "center" }}>Logout</Button>
          </Header>
       <Content style={{ margin: '24px 16px 0' }}>
         <div

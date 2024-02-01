@@ -7,6 +7,7 @@ import { resetSaleProduct } from "../../redux/features/sale/saleSlice";
 
 const SaleModal = ({ isModalOpen, setIsModalOpen, setCount }) => {
   const dispatch = useAppDispatch();
+  const quantity = useAppSelector((state)=> state.sale.saleItem.saleQuantity)
   const [saleProduct] = useCreateSingleSaleMutation();
   const { productId, saleQuantity } = useAppSelector(
     (state) => state.sale.saleItem
@@ -81,6 +82,13 @@ const SaleModal = ({ isModalOpen, setIsModalOpen, setCount }) => {
         >
           <DatePicker />
         </Form.Item>
+        <Form.Item
+          label="Sale Quantity"
+        >
+         <strong style={{paddingLeft : "10px"}}
+>{quantity}</strong>
+        </Form.Item>
+
         <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
           <Button
             onClick={handleCancel}

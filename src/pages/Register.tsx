@@ -1,4 +1,4 @@
-import { Button, Row } from "antd";
+import { Button, Card, Flex, Row } from "antd";
 import {
 
   useSignupMutation,
@@ -43,8 +43,11 @@ console.log(res)
 
   return (
     <Row justify={"center"} align={"middle"} style={{height : "100vh"}}>
+            <Card bordered={false} style={{ width: 300 ,padding : "20px 10px"}}>
+
     <BMForm onSubmit={onSubmit}>
-   
+    <Flex vertical={true} justify={"center"}>
+
       <BMInput id={"username"} type={"text"} label={"UserName:"}/>
    
       <BMInput id={"email"} type={"email"} label={"Email:"}/>
@@ -53,8 +56,10 @@ console.log(res)
 
       <BMInput id={"password"} type={"text"} label={"Password:"}/>
       <BMSelect id={"role"} label={"Role:"}/>
-      <Button htmlType="submit">Create Account</Button>
+      <Button style={{backgroundColor: "#99BC85", color : "white" }} htmlType="submit">Create Account</Button>
+      </Flex>
     </BMForm>
+    </Card>
     </Row>
   );
 };

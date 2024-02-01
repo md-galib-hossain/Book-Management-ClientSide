@@ -194,7 +194,7 @@ const CreateProduct = () => {
           </Col>
         </Row>
 
-        <Button style={{backgroundColor : "#99BC85", marginTop : "20px"}} htmlType="submit">Create Product</Button>
+        <Button style={{backgroundColor : "#99BC85", marginTop : "20px", color : "white"}} htmlType="submit">Create Product</Button>
       </Form>
     </Row>
   );

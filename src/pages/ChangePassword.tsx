@@ -1,4 +1,4 @@
-import { Button, Row } from "antd";
+import { Button, Card, Flex, Row } from "antd";
 import { FieldValues } from "react-hook-form";
 import {
   useChangepassMutation,
@@ -43,15 +43,21 @@ const ChangePassword = () => {
   };
 
   return (
-    <Row justify={"center"} align={"middle"} >
+    <Row justify={"center"} align={"middle"} style={{ height: "70vh"}} >
+      <Card bordered={false} style={{ width: 300 ,padding : "20px 10px"}}>
+ 
     <BMForm onSubmit={onSubmit}>
+      <Flex vertical={true} justify={"center"}>
     
        <BMInput type={"text"} id={"currentPassword"} label={"Current Password:"}/>
     
         <BMInput type={"text"} id={"newPassword"} label={"New Password:"}/>
    
-      <Button htmlType="submit">Change Password</Button>
+      <Button style={{backgroundColor: "#99BC85", color : "white" }} htmlType="submit">Change Password</Button>
+      </Flex>
     </BMForm>
+    </Card>
+
     </Row>
   );
 };
