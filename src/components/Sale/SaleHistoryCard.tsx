@@ -8,7 +8,7 @@ const SaleHistoryCard = ({item}) => {
 
   return (
     <>
-      <Card title={item.productId.productName} bordered={false} style={{ width: 340 }}>
+      <Card title={item?.productId?.productName} bordered={false} style={{ width: 340 }}>
         <p>
           <strong>Sold Quantity:</strong> {item.saleQuantity}
         </p>

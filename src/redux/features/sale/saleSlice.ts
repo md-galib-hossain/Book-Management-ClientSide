@@ -8,8 +8,11 @@ type TSaleItem = {
   buyerName: string
 }
 type TSale = {
-  saleItem: TSaleItem
- filterCategory: string
+  saleItem: TSaleItem;
+ filterCategory: string;
+ searchTerm : string;
+ currentPage?: string;
+ totalPage?: string;
 }
 
 export const initialState : TSale = {
@@ -20,7 +23,10 @@ export const initialState : TSale = {
    saleDate : "",
    buyerName : ""
    },
-   filterCategory: ""
+   filterCategory: "",
+   searchTerm: "",
+   totalPage: "6",
+   currentPage : "1",
 };
 
 export const saleSlice = createSlice({
@@ -39,12 +45,21 @@ export const saleSlice = createSlice({
   //  },
   setFilterCategoies : (state,action) => {
     state.filterCategory = action.payload
+  },
+  setCurrentPageForSale : (state,action)=>{
+    state.currentPage = action.payload
+  },
+  setTotalPageForSale : (state,action)=>{
+    state.totalPage = action.payload
+  },
+  setsearchTermForSale : (state,action)=>{
+state.searchTerm = action.payload
   }
   
   },
 });
 
 export const {
-  setSaleproduct,resetSaleProduct,setFilterCategoies} = saleSlice.actions;
+  setSaleproduct,resetSaleProduct,setFilterCategoies,setCurrentPageForSale,setTotalPageForSale,setsearchTermForSale} = saleSlice.actions;
 
 export default saleSlice.reducer;

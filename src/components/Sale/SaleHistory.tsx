@@ -45,10 +45,10 @@ const SaleHistory = () => {
       style={{ width: 120 }}
       onChange={handleChange}
       options={[
-        { value: 'weekly', label: 'Weekly' },
-        { value: 'daily', label: 'Daily' },
-        { value: 'monthly', label: 'Monthly' },
-        { value: 'yearly', label: 'Yearly' },
+        { value: 'weekly', label: 'Week' },
+        { value: 'daily', label: 'Day' },
+        { value: 'monthly', label: 'Month' },
+        { value: 'yearly', label: 'Year' },
       ]}
     />
     </Flex>

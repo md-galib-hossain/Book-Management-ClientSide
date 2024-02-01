@@ -3,19 +3,20 @@ import { baseApi } from "../../api/baseApi";
 const productApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => ({
-        url: `/products/`,
-        method: "GET",
-      }),
+      query: (PaginationObj) => (
+        console.log(PaginationObj, "inslice"),
+        {
+          url: `/products/?limit=${PaginationObj.totalPage}&page=${PaginationObj.currentPage}`,
+          method: "GET",
+        }
+      ),
       providesTags: ["all-products"],
     }),
     createProduct: builder.mutation({
-      query: (productState) => (
-        console.log("hahaha"),
-        {
+      query: (productState) => ({
         url: `/products/create-product`,
         method: "POST",
-        body : productState,
+        body: productState,
       }),
       invalidatesTags: ["all-products"],
     }),
@@ -36,21 +37,21 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["all-products"],
     }),
     updateSingleProduct: builder.mutation({
-      query: (updatedState) => (
-        console.log(updatedState, "inslice"),
-        {
-          url: `/products/update-product/${updatedState._id}`,
-          method: "PATCH",
-          body: updatedState,
-        }
-      ),
+      query: (updatedState) => ({
+        url: `/products/update-product/${updatedState._id}`,
+        method: "PATCH",
+        body: updatedState,
+      }),
       invalidatesTags: ["all-products"],
     }),
     getProductsByName: builder.query({
-      query: (productName) => ({
-        url: `/products/?searchTerm=${productName}`,
-        method: "GET",
-      }),
+      query: (NameQueryObj) => (
+        console.log(NameQueryObj),
+        {
+          url: `/products/?limit=${NameQueryObj?.totalPage}&page=${NameQueryObj?.currentPage}&searchTerm=${NameQueryObj?.searchTerm}`,
+          method: "GET",
+        }
+      ),
       providesTags: ["all-products"],
     }),
   }),
@@ -61,5 +62,6 @@ export const {
   useDeleteProductMutation,
   useDeleteMultipleProductsMutation,
   useUpdateSingleProductMutation,
-  useGetProductsByNameQuery,useCreateProductMutation
+  useGetProductsByNameQuery,
+  useCreateProductMutation,
 } = productApi;

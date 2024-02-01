@@ -4,6 +4,9 @@ import { TinitialProductSliceState } from "../../../types/product.type";
 
 export const initialState: TinitialProductSliceState = {
   selectedIds: [],
+  searchTerm: "",
+  totalPage: "6",
+  currentPage : "1",
   filterItem: {
     filterAuthor : "",
     filterReleaseDate: "",
@@ -15,7 +18,7 @@ export const initialState: TinitialProductSliceState = {
     filterBookFormat: ""
   },
   product: {
-    _id: "",
+    // _id: "",
     productName: "",
     productSimpleId: "",
     productPrice: 0,
@@ -29,9 +32,9 @@ export const initialState: TinitialProductSliceState = {
     language: [],
     bookFormat: [],
     isDeleted: false,
-    createdBy : "",
-    updatedAt: "",
-    createdAt: ""
+    // createdBy : "",
+    // updatedAt: "",
+    // createdAt: ""
   },
 };
 
@@ -68,6 +71,7 @@ export const productSlice = createSlice({
       }
     },
     setProductForCreate: (state, action)=>{
+      console.log(action.payload)
 state.product = action.payload
     },
     resetProduct: (state) => {
@@ -88,6 +92,15 @@ state.product = action.payload
     setFilter : (state,action) => {
       const { key, value } = action.payload;
       state.filterItem[key] = value
+    },
+    setCurrentPage : (state,action)=>{
+      state.currentPage = action.payload
+    },
+    setTotalPage : (state,action)=>{
+      state.totalPage = action.payload
+    },
+    setsearchTerm : (state,action)=>{
+state.searchTerm = action.payload
     }
   },
 });
@@ -96,9 +109,9 @@ export const {
   setSelectProduct,
   setProductForUpdate,
   removeSelectProduct,
-  resetSelectProduct,
+  resetSelectProduct,setTotalPage,setCurrentPage,
   resetProduct,
-  setFilter,setProductForCreate
+  setFilter,setProductForCreate,setsearchTerm
 } = productSlice.actions;
 
 export default productSlice.reducer;

@@ -33,6 +33,9 @@ export type TFilterProduct = {
 }
 
 export type TinitialProductSliceState = {
+    searchTerm : string;
+    currentPage?: string;
+    totalPage?: string;
     selectedIds : string[];
     product : TProduct;
     filterItem: TFilterProduct

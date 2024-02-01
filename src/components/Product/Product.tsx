@@ -1,4 +1,4 @@
-import { Button, Flex, Spin, Input, Select } from "antd";
+import { Button, Flex, Spin, Input, Select, Pagination, PaginationProps } from "antd";
 import {
   useDeleteMultipleProductsMutation,
   useGetAllProductsQuery,
@@ -6,7 +6,7 @@ import {
 import ProductCard from "./ProductCard";
 import { TProduct } from "../../types/product.type";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { resetSelectProduct } from "../../redux/features/product/productSlice";
+import { resetSelectProduct, setCurrentPage, setTotalPage } from "../../redux/features/product/productSlice";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -14,9 +14,12 @@ const { Option } = Select;
 
 const Product = () => {
   const Ids = useAppSelector((state) => state.product.selectedIds);
+  const currentPage = useAppSelector((state) => state.product.currentPage);
+  const totalPage = useAppSelector((state) => state.product.totalPage);
   const [deleteMultipleProducts] = useDeleteMultipleProductsMutation();
   const dispatch = useAppDispatch();
-  const { data, isLoading } = useGetAllProductsQuery("");
+  const PaginationObj = {currentPage : currentPage, totalPage: totalPage}
+  const { data, isLoading } = useGetAllProductsQuery(PaginationObj);
 
   // State for filters
   const [filterAuthor, setFilterAuthor] = useState("");
@@ -96,6 +99,14 @@ const Product = () => {
     }
   };
 
+  const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+    dispatch(setTotalPage(pageSize))
+    dispatch(setCurrentPage(current))
+    console.log(totalPage, currentPage);
+  };
+  const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
+
+
   return (
     <div>
       <Flex
@@ -103,7 +114,7 @@ const Product = () => {
         justify={"center"}
         wrap={"wrap"}
         gap={"20px"}
-        style={{ marginBottom: "20px" }}
+        style={{ marginBottom: "20px", maxWidth:"70%", margin:"0 auto"}}
       >
         <Flex justify={"space-between"} wrap={"nowrap"} gap={"20px"}>
           <Input
@@ -147,7 +158,6 @@ const Product = () => {
           />
 
           <Select
-            style={{ width: "20rem" }}
             placeholder={"Languages"}
             value={filterLanguage}
             onChange={(value) => setFilterLanguage(value)}
@@ -170,7 +180,7 @@ const Product = () => {
           </Select>
           
           <Select
-            style={{ width: "20rem" }}
+           
             placeholder={"Book Format"}
             value={filterBookFormat}
             onChange={(value) => setFilterBookFormat(value)}
@@ -216,10 +226,22 @@ const Product = () => {
           <h3>Total Products : {filteredProducts?.length}</h3>
         </Flex>
       </Flex>
-      <Flex vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>
+      <Flex style={{marginBottom: "30px"}} vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>
         {filteredProducts?.map((product: TProduct) => (
           <ProductCard key={product._id} product={product}></ProductCard>
         ))}
+      </Flex>
+      <Flex  justify={"center"} style={{marginBottom: "30px" , marginTop:"50px"}}>
+
+      <Pagination
+      showSizeChanger
+      onChange={onShowSizeChange}
+      defaultCurrent={1}
+      showTotal={showTotal}
+      total={data?.data?.meta.total}
+      defaultPageSize={parseInt(totalPage!)}
+      pageSizeOptions={[6,9,21]}
+    />
       </Flex>
     </div>
   );
