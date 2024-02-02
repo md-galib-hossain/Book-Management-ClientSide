@@ -1,6 +1,6 @@
 // AddQuizSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { TinitialProductSliceState } from "../../../types/product.type";
+import { TProduct, TinitialProductSliceState } from "../../../types/product.type";
 
 export const initialState: TinitialProductSliceState = {
   selectedIds: [],
@@ -17,37 +17,40 @@ export const initialState: TinitialProductSliceState = {
     filterLanguage: "",
     filterBookFormat: ""
   },
-  product: {
+  createProduct: {
     // _id: "",
     productName: "",
-    productSimpleId: "",
+
     productPrice: 0,
     productQuantity: 0,
     releaseDate: "",
     author: "",
-    isbn: 0,
+  
     genre: "",
     publisher: "",
     series: "",
     language: [],
     bookFormat: [],
     isDeleted: false,
-    // createdBy : "",
+    createdBy : "",
     // updatedAt: "",
     // createdAt: ""
   },
+  updateProduct : {
+
+  }
 };
 
 export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProductForUpdate: (state, action) => {
+    setProductForUpdate: (state : any, action : any) => {
       const keys = Object.keys(action.payload);
 
       if (keys.length > 0 && keys[0] !== "language" && keys[0] !== "bookFormat") {
-        const key = keys[0];
-        state.product[key] = action.payload[key];
+        const key = keys[0] as keyof TProduct;
+        state.updateProduct[key] = action.payload[key];
       }
       // const { language, bookFormat, ...rest } = action.payload;
       // state.product = {
@@ -58,24 +61,29 @@ export const productSlice = createSlice({
       if (keys[0] === "language") {
         const languages = action.payload.language
           .split(",")
-          .map((lang : any) => lang.trim())
+          .map((lang : string) => lang.trim())
           .filter(Boolean);
-        state.product.language.push(...languages);
+          const updatedlanguages = [...languages]
+        state.updateProduct= {language : updatedlanguages}
       }
       if (keys[0] === "bookFormat") {
         const formats = action.payload.bookFormat
           .split(",")
-          .map((format : any) => format.trim())
+          .map((format : string) => format.trim())
           .filter(Boolean);
-        state.product.bookFormat.push(...formats);
+          const bookFormat = [...formats]
+        state.updateProduct={ bookFormat : bookFormat}  
       }
     },
     setProductForCreate: (state, action)=>{
       console.log(action.payload)
-state.product = action.payload
+state.createProduct = action.payload
     },
-    resetProduct: (state) => {
-      state.product = initialState.product;
+    resetCreateProduct: (state) => {
+      state.createProduct = initialState.createProduct;
+    },
+    resetUpdateProduct: (state) => {
+      state.updateProduct = initialState.updateProduct;
     },
 
     setSelectProduct: (state, action) => {
@@ -89,10 +97,10 @@ state.product = action.payload
     resetSelectProduct: (state) => {
       state.selectedIds = initialState.selectedIds;
     },
-    setFilter : (state,action) => {
-      const { key, value } = action.payload;
-      state.filterItem[key] = value
-    },
+    // setFilter : (state,action) => {
+    //   const { key, value } = action.payload;
+    //   state.filterItem[key] = value
+    // },
     setCurrentPage : (state,action)=>{
       state.currentPage = action.payload
     },
@@ -110,8 +118,9 @@ export const {
   setProductForUpdate,
   removeSelectProduct,
   resetSelectProduct,setTotalPage,setCurrentPage,
-  resetProduct,
-  setFilter,setProductForCreate,setsearchTerm
+  resetCreateProduct,resetUpdateProduct,
+  // setFilter,
+  setProductForCreate,setsearchTerm
 } = productSlice.actions;
 
 export default productSlice.reducer;

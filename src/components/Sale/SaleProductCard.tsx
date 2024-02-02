@@ -1,18 +1,14 @@
 import { Button, Card, Flex } from "antd";
-import { TProduct } from "../../types/product.type";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import SaleModal from "./SaleModal";
 import { setSaleproduct } from "../../redux/features/sale/saleSlice";
 
-type ProductCardProps = {
-  product: TProduct;
-  quantity: number;
-};
 
-const SaleProductCard = ({ product, quantity }) => {
+
+const SaleProductCard = ({ product} : any) => {
   const dispatch = useAppDispatch();
   const [count, setCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,10 +38,10 @@ const SaleProductCard = ({ product, quantity }) => {
           <strong>Series:</strong> {product.series}
         </p>
         <p>
-          <strong>Language:</strong> {product.language.join(", ")}
+          <strong>Language:</strong> {product.language?.join(", ")}
         </p>
         <p>
-          <strong>Book Format:</strong> {product.bookFormat.join(", ")}
+          <strong>Book Format:</strong> {product.bookFormat?.join(", ")}
         </p>
         <p>
           <strong>Book Stock:</strong> {product.productQuantity}

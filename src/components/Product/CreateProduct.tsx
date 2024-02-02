@@ -1,8 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Button, Col, Form, Input, Row } from "antd";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  resetProduct,
+  
+  resetCreateProduct,
   setProductForCreate,
   setProductForUpdate,
 } from "../../redux/features/product/productSlice";
@@ -11,7 +14,7 @@ import { toast } from "sonner";
 
 const CreateProduct = () => {
   const dispatch = useAppDispatch();
-  const productState = useAppSelector((state) => state.product.product);
+  const productState = useAppSelector((state) => state.product.createProduct);
   const user = useAppSelector((state) => state.auth.user?._id);
   const [createProduct] = useCreateProductMutation();
 
@@ -28,13 +31,14 @@ const CreateProduct = () => {
     dispatch(setProductForCreate(insertedState));
     try {
       await createProduct(productState);
-      dispatch(resetProduct());
+      dispatch(resetCreateProduct());
       toast.success("Created Product", { id: toastid, duration: 2000 });
     } catch (e) {
       toast.error("Something Went Wrong", { id: toastid, duration: 2000 });
+      dispatch(resetCreateProduct());
+
     }
     console.log(productState);
-    // dispatch(resetProduct())
   };
 
   return (

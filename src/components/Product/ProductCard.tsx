@@ -51,7 +51,7 @@ checked = selectedIds.includes(product._id!)
     setIsModalOpen(true);
   };
   const showModalVariant = () => {
-    const {  _id,productSimpleId,createdAt,updatedAt,...filteredProduct  } = product
+    const {  _id,productSimpleId,createdAt,updatedAt,isbn,...filteredProduct  } = product
     dispatch(setProductForCreate({...filteredProduct, createdBy: user }))
     setIsModalVariantOpen(true);
   };
@@ -87,8 +87,8 @@ checked = selectedIds.includes(product._id!)
         <p><strong>Publisher:</strong> {product.publisher}</p>
         <p><strong>Series:</strong> {product.series}</p>
         <p><strong>Release Date:</strong> {product.releaseDate}</p>
-        <p><strong>Language:</strong> {product.language.join(", ")}</p>
-        <p><strong>Book Format:</strong> {product.bookFormat.join(", ")}</p>
+        <p><strong>Language:</strong> {product.language?.join(", ")}</p>
+        <p><strong>Book Format:</strong> {product.bookFormat?.join(", ")}</p>
         <p><strong>Book Stock:</strong> {product.productQuantity}</p>
         <Flex
           vertical={false}
@@ -108,7 +108,7 @@ checked = selectedIds.includes(product._id!)
           >
             Create Variant
           </Button>
-          <ProductVariantModal product={product} isModalVariantOpen={isModalVariantOpen} setIsModalVariantOpen={setIsModalVariantOpen}> </ProductVariantModal>
+          <ProductVariantModal product={product} isModalVariantOpen={isModalVariantOpen} setIsModalVariantOpen={setIsModalVariantOpen}/>
         </Flex>
       </Card>
     </>

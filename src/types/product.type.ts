@@ -1,19 +1,19 @@
 export type TProduct = {
     _id? : string;
     productName : string;
-    productSimpleId : string;
+    productSimpleId? : string;
     productPrice : number;
     productQuantity : number;
     releaseDate : string;
     author : string;
-    isbn : number;
+    isbn? : number;
     genre : string;
     publisher : string;
     series : string;
     language : string[];
     bookFormat : string[];
-    isDeleted? : boolean;
-    createdBy? : string;
+    isDeleted : boolean;
+    createdBy : string;
     updatedAt? : string;
     createdAt? : string
 
@@ -34,9 +34,10 @@ export type TFilterProduct = {
 
 export type TinitialProductSliceState = {
     searchTerm : string;
+    createProduct: TProduct
     currentPage?: string;
     totalPage?: string;
     selectedIds : string[];
-    product : TProduct;
+    updateProduct : Partial<TProduct>;
     filterItem: TFilterProduct
 }

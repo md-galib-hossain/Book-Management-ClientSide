@@ -37,7 +37,8 @@ const productApi = baseApi.injectEndpoints({
       invalidatesTags: ["all-products"],
     }),
     updateSingleProduct: builder.mutation({
-      query: (updatedState) => ({
+      query: (updatedState) => (
+      {
         url: `/products/update-product/${updatedState._id}`,
         method: "PATCH",
         body: updatedState,

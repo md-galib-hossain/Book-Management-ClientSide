@@ -1,4 +1,4 @@
-import { Flex, Pagination, PaginationProps, Row } from "antd";
+import { Flex, Pagination, PaginationProps, Row, Spin } from "antd";
 import Search from "antd/es/input/Search";
 import type { SearchProps } from "antd/es/input/Search";
 import { useGetProductsByNameQuery } from "../../redux/features/product/productApi";
@@ -21,7 +21,7 @@ const CreateSale = () => {
     totalPage: totalPage,
     currentPage: currentPage,
   };
-  const { data } = useGetProductsByNameQuery(NameQueryObj);
+  const { data,isLoading } = useGetProductsByNameQuery(NameQueryObj);
   const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
     current,
     pageSize
@@ -33,6 +33,13 @@ const CreateSale = () => {
   const showTotal: PaginationProps["showTotal"] = (total) =>
     `Total ${total} items`;
   console.log(data?.data)
+  if (isLoading) {
+    return (
+      <Flex justify="center" align="center">
+        <Spin size="large" />
+      </Flex>
+    );
+  }
   
   return (
     <div>

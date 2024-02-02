@@ -32,7 +32,7 @@ const ChangePassword = () => {
       toast.success("Password Changed", { id: toastId, duration: 2000 });
 
       dispatch(logout());
-      navigate(`/${user!.role}/dashboard`)
+      navigate(`/${user!.role}/products`)
 
       if (isLoading) {
         return <div>Loading...</div>;

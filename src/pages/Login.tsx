@@ -28,7 +28,7 @@ const navigate = useNavigate()
 
     dispatch(setUser({ user: user, token: res.data.accessToken }));
     toast.success("Logged in", {id : toastId , duration : 2000})
-    navigate(`/${user.role}/dashboard`)
+    navigate(`/${user.role}/products`)
    }catch(e){
 toast.error("Something went wrong", {id : toastId, duration : 2000})
    }
@@ -46,6 +46,8 @@ toast.error("Something went wrong", {id : toastId, duration : 2000})
         <BMInput type={"text"} id={"password"} label={"Password:"}/>
    
       <Button style={{backgroundColor: "#99BC85", color : "white" }} htmlType="submit">Login</Button>
+      <Button onClick={()=>navigate("/register")} type="link">Don't have an account! Register</Button>
+
  </Flex>
     </BMForm>
 </Card>

@@ -5,7 +5,8 @@ import { RootState } from "../store";
 import { logout } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  // http://localhost:5000
+  baseUrl: "https://book-management-server-seven.vercel.app/api/v1",
   prepareHeaders: (headers, { getState }) => {
     const token: any = (getState() as RootState).auth.token;
     if (token) {

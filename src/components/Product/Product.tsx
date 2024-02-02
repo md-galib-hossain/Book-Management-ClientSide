@@ -164,15 +164,15 @@ const Product = () => {
           >
             {/* Add options dynamically based on available languages */}
             {data?.data?.result
-              ?.reduce((languages, product) => {
-                product.language.forEach((lang) => {
+              ?.reduce((languages : any, product : any) => {
+                product?.language?.forEach((lang : any) => {
                   if (!languages.includes(lang)) {
                     languages.push(lang);
                   }
                 });
                 return languages;
               }, [])
-              .map((lang) => (
+              .map((lang : any) => (
                 <Option key={lang} value={lang}>
                   {lang}
                 </Option>
@@ -185,17 +185,16 @@ const Product = () => {
             value={filterBookFormat}
             onChange={(value) => setFilterBookFormat(value)}
           >
-            {/* Add options dynamically based on available book formats */}
             {data?.data?.result
-              ?.reduce((formats, product) => {
-                product.bookFormat.forEach((format) => {
+              ?.reduce((formats : any, product : any) => {
+                product?.bookFormat?.forEach((format : string) => {
                   if (!formats.includes(format)) {
                     formats.push(format);
                   }
                 });
                 return formats;
               }, [])
-              .map((format) => (
+              .map((format : string) => (
                 <Option key={format} value={format}>
                   {format}
                 </Option>
@@ -223,7 +222,7 @@ const Product = () => {
           >
             Delete Selected
           </Button>
-          <h3>Total Products : {filteredProducts?.length}</h3>
+          <h3>Total Products : {data?.data?.meta.total}</h3>
         </Flex>
       </Flex>
       <Flex style={{marginBottom: "30px"}} vertical={false} justify={"center"} wrap={"wrap"} gap={"20px"}>

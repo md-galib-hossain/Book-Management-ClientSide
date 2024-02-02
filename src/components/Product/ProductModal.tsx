@@ -1,8 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Button, Col, Input, Modal, Row } from "antd";
 import { TProduct } from "../../types/product.type";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  resetProduct,
+  resetCreateProduct,
+  
+  resetUpdateProduct,
   setProductForUpdate,
 } from "../../redux/features/product/productSlice";
 import { useForm } from "react-hook-form";
@@ -24,55 +28,54 @@ const ProductModal = ({
   const dispatch = useAppDispatch();
   const [updateSingleProduct] = useUpdateSingleProductMutation();
 
-  const productState = useAppSelector((product) => product.product.product);
+  const productState = useAppSelector((state) => state.product.updateProduct);
 
   const handleOk = () => {
     setIsModalOpen(false);
-    dispatch(resetProduct());
+    dispatch(resetUpdateProduct());
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    dispatch(resetProduct());
+    dispatch(resetUpdateProduct());
   };
 
-  //todo : first time productstate empty silo
-  //todo: next time state change korar por update state ashce na
-  const onSubmit = async (data: any) => {
+
+  const onSubmit = async () => {
     try {
       // console.log(productState,"checkingUpdatedState") //updated product state after setProductForUpdate
       const updatedState = { ...productState, _id: product?._id };
 
-   // todo clearing empty fields
-function removeEmptyFields(obj) {
-  const filteredObject = Object.fromEntries(
-    Object.entries(obj).filter(([key, value]) => {
-      if (
-        (Array.isArray(value) && value.length === 0) ||
-        (typeof value === "string" && value.trim() === "") ||
-        value === null ||
-        value === undefined ||
-        (typeof value === "number" && value === 0)
-      ) {
-        return false; // Exclude empty arrays, empty strings, null, undefined, and zero values
-      }
-      return true; // Include non-empty values
-    })
-  );
+//    // todo clearing empty fields
+// function removeEmptyFields(obj : any) {
+//   const filteredObject = Object.fromEntries(
+//     Object.entries(obj).filter(([ value]) => {
+//       if (
+//         (Array.isArray(value) && value.length === 0) ||
+//         (typeof value === "string" && value.trim() === "") ||
+//         value === null ||
+//         value === undefined ||
+//         (typeof value === "number" && value === 0)
+//       ) {
+//         return false; // Exclude empty arrays, empty strings, null, undefined, and zero values
+//       }
+//       return true; // Include non-empty values
+//     })
+//   );
 
-  return filteredObject;
-}
+//   return filteredObject;
+// }
 
 
 
-      const outputObject = removeEmptyFields(updatedState);
-      const res = await updateSingleProduct(outputObject);
+//       const outputObject = removeEmptyFields(updatedState);
+      const res = await updateSingleProduct(updatedState);
       console.log(res);
-      dispatch(resetProduct());
+      dispatch(resetUpdateProduct());
       toast.success("Product updated successfully");
     } catch (e) {
       toast.error("Something went wrong");
-      dispatch(resetProduct())
+      dispatch(resetUpdateProduct());
 
     }
   };
@@ -103,7 +106,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.productName}
               id="productName"
               type="text"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ productName: e.target.value }))
               }
             />
@@ -115,7 +118,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.productPrice}
               id="productPrice"
               type="number"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ productPrice: parseInt(e.target.value) }))
               }
             />
@@ -127,7 +130,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.productQuantity}
               id="productQuantity"
               type="number"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(
                   setProductForUpdate({ productQuantity: parseInt(e.target.value) })
                 )
@@ -141,7 +144,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.language}
               id="language"
               type="text"
-              onBlur={(e) => dispatch(setProductForUpdate({ language: e.target.value }))}
+              onChange={(e) => dispatch(setProductForUpdate({ language: e.target.value }))}
             />
           </Col>
 
@@ -151,7 +154,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.genre}
               id="genre"
               type="text"
-              onBlur={(e) => dispatch(setProductForUpdate({ genre: e.target.value }))}
+              onChange={(e) => dispatch(setProductForUpdate({ genre: e.target.value }))}
             />
           </Col>
 
@@ -161,7 +164,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.author}
               id="author"
               type="text"
-              onBlur={(e) => dispatch(setProductForUpdate({ author: e.target.value }))}
+              onChange={(e) => dispatch(setProductForUpdate({ author: e.target.value }))}
             />
           </Col>
 
@@ -171,7 +174,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.bookFormat}
               id="bookFormat"
               type="text"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ bookFormat: e.target.value }))
               }
             />
@@ -183,7 +186,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.isbn}
               id="isbn"
               type="number"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ isbn: parseInt(e.target.value) }))
               }
             />
@@ -195,7 +198,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.publisher}
               id="publisher"
               type="text"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ publisher: e.target.value }))
               }
             />
@@ -207,7 +210,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.series}
               id="series"
               type="text"
-              onBlur={(e) => dispatch(setProductForUpdate({ series: e.target.value }))}
+              onChange={(e) => dispatch(setProductForUpdate({ series: e.target.value }))}
             />
           </Col>
 
@@ -217,7 +220,7 @@ function removeEmptyFields(obj) {
               defaultValue={product.releaseDate}
               id="releaseDate"
               type="text"
-              onBlur={(e) =>
+              onChange={(e) =>
                 dispatch(setProductForUpdate({ releaseDate: e.target.value }))
               }
             />

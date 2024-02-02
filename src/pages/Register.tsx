@@ -57,6 +57,8 @@ console.log(res)
       <BMInput id={"password"} type={"text"} label={"Password:"}/>
       <BMSelect id={"role"} label={"Role:"}/>
       <Button style={{backgroundColor: "#99BC85", color : "white" }} htmlType="submit">Create Account</Button>
+      <Button onClick={()=>navigate("/login")} type="link">Already have an account! Login</Button>
+
       </Flex>
     </BMForm>
     </Card>

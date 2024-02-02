@@ -1,11 +1,10 @@
 import { Button, DatePicker, Form, Input, Modal } from "antd";
-import React from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { useCreateSingleSaleMutation } from "../../redux/features/sale/saleApi";
 import { toast } from "sonner";
 import { resetSaleProduct } from "../../redux/features/sale/saleSlice";
 
-const SaleModal = ({ isModalOpen, setIsModalOpen, setCount }) => {
+const SaleModal = ({ isModalOpen, setIsModalOpen, setCount } : any) => {
   const dispatch = useAppDispatch();
   const quantity = useAppSelector((state)=> state.sale.saleItem.saleQuantity)
   const [saleProduct] = useCreateSingleSaleMutation();
@@ -25,15 +24,13 @@ const SaleModal = ({ isModalOpen, setIsModalOpen, setCount }) => {
   };
   const handleOk = () => {
     setIsModalOpen(false);
-    // dispatch(resetProduct())
   };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-    // dispatch(resetProduct())
   };
 
-  const handleForm = async (value) => {
+  const handleForm = async (value : any) => {
     const antDesignDateObject = new Date(value.saleDate); //converting date
     const saleDate = antDesignDateObject.toISOString();
     console.log(saleDate, value.buyerName, productId, saleQuantity);

@@ -1,4 +1,4 @@
-import { Flex, Select } from "antd"
+import { Flex, Select, Spin } from "antd"
 import { useGetSaleHistoryQuery } from "../../redux/features/sale/saleApi"
 import SaleHistoryCard from "./SaleHistoryCard"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
@@ -7,17 +7,17 @@ import { isSameDay, isSameWeek, isSameMonth, isSameYear } from "date-fns";
 
 const SaleHistory = () => {
     
-    const {data} = useGetSaleHistoryQuery("")
+    const {data,isLoading} = useGetSaleHistoryQuery("")
     const dispatch = useAppDispatch()
     const filterBy = useAppSelector((state)=> state.sale.filterCategory)
     const handleChange = (value: string) => {
         dispatch(setFilterCategoies(value))
       };
 
-      const filterDataByDate = (data, filterBy) => {
+      const filterDataByDate = (data : any, filterBy : string) => {
         const currentDate = new Date();
     
-        return data.filter((item) => {
+        return data.filter((item : any) => {
           const saleDate = new Date(item.saleDate);
           switch (filterBy) {
             case "daily":
@@ -35,6 +35,13 @@ const SaleHistory = () => {
       };
       const filteredData = filterDataByDate(data?.data || [], filterBy);
 
+      if (isLoading) {
+        return (
+          <Flex justify="center" align="center">
+            <Spin size="large" />
+          </Flex>
+        );
+      }
      
   return (
     <div> 
@@ -57,8 +64,8 @@ const SaleHistory = () => {
 
 {
     filteredData.length === 0 ? <h1>There is no sale in this timeframe</h1> :
-filteredData?.map((item)=>{
-return  <SaleHistoryCard item={item} > </SaleHistoryCard>
+filteredData?.map((item : any)=>{
+return  <SaleHistoryCard item={item} /> 
 
 })
 }

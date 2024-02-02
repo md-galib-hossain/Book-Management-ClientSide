@@ -2,7 +2,7 @@ import {  Card} from "antd";
 
 
 
-const SaleHistoryCard = ({item}) => {
+const SaleHistoryCard = ({item} : any) => {
     
  console.log(item)
 

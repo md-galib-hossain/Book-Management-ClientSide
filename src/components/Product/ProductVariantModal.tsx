@@ -1,8 +1,10 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Button, Col, Form, Input, Modal, Row } from "antd";
 import { TProduct } from "../../types/product.type";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { resetProduct, setProductForUpdate } from "../../redux/features/product/productSlice";
-import { useCreateProductMutation, useUpdateSingleProductMutation } from "../../redux/features/product/productApi";
+import { resetCreateProduct, setProductForUpdate } from "../../redux/features/product/productSlice";
+import { useCreateProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
 
 type TModalProps = {
@@ -16,33 +18,34 @@ const ProductVariantModal = ({
     product
   }: TModalProps) => {
     const dispatch = useAppDispatch();
-    const productState = useAppSelector((state)=> state.product.product)
+    const productState = useAppSelector((state)=> state.product.createProduct)
+    const updatedproductState = useAppSelector((state)=> state.product.updateProduct)
     const [createProduct] = useCreateProductMutation()
 
   const handleOk = () => {
     setIsModalVariantOpen(false);
-    dispatch(resetProduct())
+    dispatch(resetCreateProduct())
 
   };
 
   const handleCancel = () => {
     setIsModalVariantOpen(false);
-    dispatch(resetProduct())
+    dispatch(resetCreateProduct())
 
   };
 
   const handleForm = async() => {
     const toastId =  toast.loading('Creating New Product')
-
+const joinedUpdateCreate = { ...productState, ...updatedproductState}
     try{
-      const res = await createProduct(productState)
+      const res = await createProduct(joinedUpdateCreate)
       console.log(res)
-      dispatch(resetProduct())
+      dispatch(resetCreateProduct())
       toast.success("Created Product", {id : toastId , duration : 2000})
 
     }catch(e){
       toast.error("Something Went Wrong", {id : toastId , duration : 2000})
-      dispatch(resetProduct())
+      dispatch(resetCreateProduct())
 
     }
   }
