@@ -1,6 +1,6 @@
 // AddQuizSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { TProduct, TinitialProductSliceState } from "../../../types/product.type";
+import { TinitialProductSliceState } from "../../../types/product.type";
 
 export const initialState: TinitialProductSliceState = {
   selectedIds: [],
@@ -45,35 +45,18 @@ export const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProductForUpdate: (state : any, action : any) => {
-      const keys = Object.keys(action.payload);
+    setProductForUpdate: (state : TinitialProductSliceState, action : any) => {
+      if('language' in action.payload){
+        console.log("hahaha")
+        state.updateProduct.language = [action.payload.language]
 
-      if (keys.length > 0 && keys[0] !== "language" && keys[0] !== "bookFormat") {
-        const key = keys[0] as keyof TProduct;
-        state.updateProduct[key] = action.payload[key];
       }
-      // const { language, bookFormat, ...rest } = action.payload;
-      // state.product = {
-      //   ...state.product,
-      //   ...rest,
-      // };
-      // Handle arrays
-      if (keys[0] === "language") {
-        const languages = action.payload.language
-          .split(",")
-          .map((lang : string) => lang.trim())
-          .filter(Boolean);
-          const updatedlanguages = [...languages]
-        state.updateProduct= {language : updatedlanguages}
+      if('bookFormat' in action.payload){
+        state.updateProduct.bookFormat = [action.payload.bookFormat]
+
       }
-      if (keys[0] === "bookFormat") {
-        const formats = action.payload.bookFormat
-          .split(",")
-          .map((format : string) => format.trim())
-          .filter(Boolean);
-          const bookFormat = [...formats]
-        state.updateProduct={ bookFormat : bookFormat}  
-      }
+      state.updateProduct = {...state.updateProduct,...action.payload}
+
     },
     setProductForCreate: (state, action)=>{
       console.log(action.payload)
@@ -90,7 +73,7 @@ state.createProduct = action.payload
       state.selectedIds.push(action.payload);
     },
     removeSelectProduct: (state, action) => {
-      state.selectedIds = state.selectedIds.filter(
+      state.selectedIds = state.selectedIds?.filter(
         (id) => id !== action.payload
       );
     },

@@ -42,7 +42,7 @@ const user = useAppSelector((state)=> state.auth.user?._id)
   };
 let checked = false
   if(selectedIds.length > 0 ){
-checked = selectedIds.includes(product._id!)
+checked = selectedIds?.includes(product._id!)
   }
 //   for modal
   const [isModalOpen, setIsModalOpen] = useState(false);

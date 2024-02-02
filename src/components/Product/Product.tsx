@@ -34,45 +34,45 @@ const Product = () => {
   const filteredProducts = data?.data?.result?.filter((product: TProduct) => {
     if (
       filterAuthor &&
-      !product.author.toLowerCase().includes(filterAuthor.toLowerCase())
+      !product.author?.toLowerCase().includes(filterAuthor.toLowerCase())
     ) {
       return false;
     }
 
-    if (filterReleaseDate && !product.releaseDate.includes(filterReleaseDate)) {
+    if (filterReleaseDate && !product.releaseDate?.includes(filterReleaseDate)) {
       return false;
     }
 
-    if (filterISBN && product.isbn && product.isbn.toString() !== filterISBN) {
+    if (filterISBN && product.isbn && product.isbn?.toString() !== filterISBN) {
       return false;
     }
 
     if (
       filterGenre &&
-      !product.genre.toLowerCase().includes(filterGenre.toLowerCase())
+      !product.genre?.toLowerCase().includes(filterGenre.toLowerCase())
     ) {
       return false;
     }
 
     if (
       filterPublisher &&
-      !product.publisher.toLowerCase().includes(filterPublisher.toLowerCase())
+      !product.publisher?.toLowerCase().includes(filterPublisher.toLowerCase())
     ) {
       return false;
     }
 
     if (
       filterSeries &&
-      !product.series.toLowerCase().includes(filterSeries.toLowerCase())
+      !product.series?.toLowerCase().includes(filterSeries.toLowerCase())
     ) {
       return false;
     }
 
-    if (filterLanguage && !product.language.includes(filterLanguage)) {
+    if (filterLanguage && !product.language?.includes(filterLanguage)) {
       return false;
     }
 
-    if (filterBookFormat && !product.bookFormat.includes(filterBookFormat)) {
+    if (filterBookFormat && !product.bookFormat?.includes(filterBookFormat)) {
       return false;
     }
 
@@ -166,10 +166,11 @@ const Product = () => {
             {data?.data?.result
               ?.reduce((languages : any, product : any) => {
                 product?.language?.forEach((lang : any) => {
-                  if (!languages.includes(lang)) {
+                  if (!languages?.includes(lang)) {
                     languages.push(lang);
                   }
                 });
+                
                 return languages;
               }, [])
               .map((lang : any) => (
@@ -188,8 +189,9 @@ const Product = () => {
             {data?.data?.result
               ?.reduce((formats : any, product : any) => {
                 product?.bookFormat?.forEach((format : string) => {
-                  if (!formats.includes(format)) {
+                  if (!formats?.includes(format)) {
                     formats.push(format);
+
                   }
                 });
                 return formats;

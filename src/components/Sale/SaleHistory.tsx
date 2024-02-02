@@ -17,7 +17,7 @@ const SaleHistory = () => {
       const filterDataByDate = (data : any, filterBy : string) => {
         const currentDate = new Date();
     
-        return data.filter((item : any) => {
+        return data?.filter((item : any) => {
           const saleDate = new Date(item.saleDate);
           switch (filterBy) {
             case "daily":

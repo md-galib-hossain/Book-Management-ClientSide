@@ -144,7 +144,7 @@ const ProductModal = ({
               defaultValue={product.language}
               id="language"
               type="text"
-              onChange={(e) => dispatch(setProductForUpdate({ language: e.target.value }))}
+              onChange={(e) => dispatch(setProductForUpdate({ language: [e.target.value] }))}
             />
           </Col>
 
@@ -175,7 +175,7 @@ const ProductModal = ({
               id="bookFormat"
               type="text"
               onChange={(e) =>
-                dispatch(setProductForUpdate({ bookFormat: e.target.value }))
+                dispatch(setProductForUpdate({ bookFormat: [e.target.value] }))
               }
             />
           </Col>
